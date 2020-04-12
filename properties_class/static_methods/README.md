@@ -12,3 +12,7 @@ Like all decorators, it is also possible to call staticmethod as a regular funct
 
 class C:
     builtin_open = staticmethod(open)
+
+# Static Methods with Inheritance
+
+Static methods in Python can be overriden in subclasses
