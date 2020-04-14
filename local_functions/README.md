@@ -12,3 +12,7 @@ What is covered:
     - Local functions can be usefule for code organization
     - Local functions are similar to lambdas, but are more general and powerful
     - Functions can return other fucntions, including local function defined in their body
+
+# Decorators
+
+https://realpython.com/primer-on-python-decorators/
