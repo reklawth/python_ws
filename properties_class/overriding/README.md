@@ -1,0 +1,2 @@
+# Object Oriented Design
+Consider that overuse of getters and setters can lead to poor object-oriented designs with tightly coupled classes.  Such designs expose to many details, albeit thinly wrapped in properties.  A recommendation is to reduce coupling between objects by implementing methods which allow clients to tell objects what to do, rather than having clients request internal data so they can themselves perform actions.
