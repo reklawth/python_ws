@@ -8,6 +8,8 @@ Notice in the _get_next_serial(cls) function that we are passing a class (cls) a
 
 If you need to refer to the class object within the method (for example to access a class attribute) prefer to use @classmethod.  If you don't need to access the class object use @staticmethod
 
+Use the @classmethod decorator to define methods which operate on the class object
+
 # super() Function
 
 At a high level, super() gives you access to methods in a superclass from the subclass that inherits from it.
