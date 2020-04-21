@@ -19,3 +19,9 @@ It is a good idea to always implement __repr__() for any class that you write.  
 The reprlib module provides an alternative implementation of the built-in repr function.
 
 The primary feature of the implmentation of reprlib is that it places limits on how large a string can be. For example if it is used to print a large list it will only print a limited number of the elements.
+
+## reprlib.Repr
+
+While reprlib.repr() is the main entry point into reprlib for most people, there is significantly more ot the module.  The functionality of reprlib is built around a class, reprlib.Repr.  This class implements all of the support for customizing representations, Repr is designed to be customized and subclassed so you can create your won specialized Repr generators if you want to.
+
+The reprlib module instantiates a singleton instance of this Repr class for you.  It is named reprlib.aRepr and reprlib.repr() actually just calls the reprlib.aRepr.repr() function.  So you can manipulate this pre-made instance if you want to control default reprlib behaviour throughout your program.
