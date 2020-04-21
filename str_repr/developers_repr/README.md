@@ -13,3 +13,9 @@ The repr() of an object should tell a developer everything they need to know abo
 All objects come with a defual implementation of __repr__(), but you'll almost always want to overide this.  The default representation tells you the class name and the ID of the object, but it tells you nothing about the important attributes.
 
 It is a good idea to always implement __repr__() for any class that you write.  It does not take much work to write a good repr(), ahd the work pays of whe you are debugging or scanning logs.
+
+# Leveraging reprlib for large strings
+
+The reprlib module provides an alternative implementation of the built-in repr function.
+
+The primary feature of the implmentation of reprlib is that it places limits on how large a string can be. For example if it is used to print a large list it will only print a limited number of the elements.
