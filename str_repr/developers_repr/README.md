@@ -8,6 +8,8 @@ repr() should contain more information than the str() representation of an objec
 
 The repr() of an object should tell a developer everything they need to know about an object to fully identify it and, as much as is practical, see where it come from and how it fits into the larger program context.  The repr() of an object is what a developer will see in a debugger, so when deciding what to put into a repr(), think about what you'd want to know when debugging code that uses the class you are developing.
 
+The repr of an object is inteded to be used by developers for logging, debugging and other activities where an unambiguous format is more important than a human-friendly one.  Often this means that the repr of an object is larger than the str, if only because the repr contain extra identifying information.
+
 ## Always implement a repr() for your classes
 
 All objects come with a defual implementation of __repr__(), but you'll almost always want to overide this.  The default representation tells you the class name and the ID of the object, but it tells you nothing about the important attributes.
