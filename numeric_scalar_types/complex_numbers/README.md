@@ -22,4 +22,4 @@ abs() returns the magnitude of a number, which is always positive.  When used wi
 
 round() will rounds to a given number of decimal digits.  To avoid bias, when there are two equally close alternatives rounding is towards even numbers.  So round(1.5) rounds up, and round(2.5) rounds down.
 
-as with abs(), round() is implemented for int (where it has no effect), float, and Decimal.  It is also implemented for Fraction.  round() is not supported for complex.  Be aware that when used with float, which uses a binary representation, round() - which is fundamentally a decimal operation - can give surprising results.
+as with abs(), round() is implemented for int (where it has no effect), float, and Decimal.  It is also implemented for Fraction.  round() is not supported for complex.  Be aware that when used with float, which uses a binary representation, round() - which is fundamentally a decimal operation - can give surprising results.  If avoiding quirks is import for your application, use the decimal type.
