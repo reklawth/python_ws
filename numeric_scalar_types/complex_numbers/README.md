@@ -13,3 +13,13 @@ In addition to complex equivalents of all the standard math functions, cmath con
 ### Cartesian form:
 
 A Cartesian coordinate system (US: /kɑːrˈtiʒən/) is a coordinate system that specifies each point uniquely in a plane by a set of numerical coordinates, which are the signed distances to the point from two fixed perpendicular oriented lines, measured in the same unit of length.  https://en.wikipedia.org/wiki/Cartesian_coordinate_system
+
+## abs()
+
+abs() returns the magnitude of a number, which is always positive.  When used with integers, floats, decimals or fractions, it simply returns the absolute alue of the number, which is the non-negative magnitude without regards to its sign.  In effect, for all number tupes including complex, abs() returns the distance from zero.
+
+## round()
+
+round() will rounds to a given number of decimal digits.  To avoid bias, when there are two equally close alternatives rounding is towards even numbers.  So round(1.5) rounds up, and round(2.5) rounds down.
+
+as with abs(), round() is implemented for int (where it has no effect), float, and Decimal.  It is also implemented for Fraction.  round() is not supported for complex.  Be aware that when used with float, which uses a binary representation, round() - which is fundamentally a decimal operation - can give surprising results.
