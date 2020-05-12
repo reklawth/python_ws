@@ -5,3 +5,7 @@ Some if the ideas on how to work it iterables were originally developed in the f
 ## map()
 
 The map() function is probably one of hte most widely recognized functional programming tools in Python.  Given a callable object and a sequence of objects, map() calls the function once for every elemement in the source series, producing a new series containing the return values of the function.  In functional programming jargon, we "map" a function over a sequence to produce a new sequence.
+
+### Multiple input sequences
+
+Generally you need to provide as many input sequences as there are arguments in the mapped function.  When map() is given multiple input secuences it takes an element from each sequence and passes it as the corresponding argument to the mapped function to produce each output value.
