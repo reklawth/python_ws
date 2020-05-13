@@ -9,3 +9,11 @@ The map() function is probably one of hte most widely recognized functional prog
 ### Multiple input sequences
 
 Generally you need to provide as many input sequences as there are arguments in the mapped function.  When map() is given multiple input secuences it takes an element from each sequence and passes it as the corresponding argument to the mapped function to produce each output value.
+
+## filter()
+
+As its name implies, fitler() looks at each element in an iterable series and skips those which don't meet some criteria.  Like map() filter() applies a callable to each element in a series, and also like map(), filter() produces its results lazily.  Unlike map(), filter() only accepts a single input sequence, and the callable it takes must only accept a single argument.  The filter() function (really class) applies its first argument to each element in the input series, and returns a series containing only those elements of the input for which the function returns True.
+
+## Differences between Python 2 and 3
+
+In Python 3 the map and filter functions return a lazily-produced series of values.  In Python 2, these functions actually return list sequences.
