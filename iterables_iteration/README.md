@@ -17,3 +17,7 @@ As its name implies, fitler() looks at each element in an iterable series and sk
 ## Differences between Python 2 and 3
 
 In Python 3 the map and filter functions return a lazily-produced series of values.  In Python 2, these functions actually return list sequences.
+
+## functools.reduce()
+
+The reduce() function is in the funtools standard library module.  You can iplemnet both map and filter in terms of reduce.  reduce() repeatedly applies a function of two argument to an interim accumulator value and the elements of the series, updating - or accumulating - the interim value at each step with the result of the called function.  Ultimately the final value of the accumulator is returned, thereby reducing the series down to a single value.
