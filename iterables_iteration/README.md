@@ -21,3 +21,13 @@ In Python 3 the map and filter functions return a lazily-produced series of valu
 ## functools.reduce()
 
 The reduce() function is in the funtools standard library module.  You can iplemnet both map and filter in terms of reduce.  reduce() repeatedly applies a function of two argument to an interim accumulator value and the elements of the series, updating - or accumulating - the interim value at each step with the result of the called function.  Ultimately the final value of the accumulator is returned, thereby reducing the series down to a single value.
+
+## Iterables
+
+An iterable object in Python is simply an object that supports the iterable protocol by implementing __iter__(). When you call iter(obj), this ultimately results in a call to obj.__iter__(), and iter() returns the result of this call .__iter__() is required to return an iterator
+
+## Iterators
+
+An iterator is simply an object that fulfills the iterator protocol.  he first part of the iterator protocol is the iterable protocol.  In other words, all iterators must also be iterable.  This means that all iterators must implement __iter__().  Often (but not always), iterators just return themselves from __iter__() . 
+
+Iterators are also required to implement __next__(), the function called by next().  Like iter() and __iter__(), next (obj) results in a call to obj.__next__(), the result of which gets returned by next().
