@@ -31,3 +31,7 @@ An iterable object in Python is simply an object that supports the iterable prot
 An iterator is simply an object that fulfills the iterator protocol.  he first part of the iterator protocol is the iterable protocol.  In other words, all iterators must also be iterable.  This means that all iterators must implement __iter__().  Often (but not always), iterators just return themselves from __iter__() . 
 
 Iterators are also required to implement __next__(), the function called by next().  Like iter() and __iter__(), next (obj) results in a call to obj.__next__(), the result of which gets returned by next().
+
+## __getitem__()
+
+Rather than implementing the __iter__ method, an object can implement the __getitem__ method.  For this to work, __getitem__ must return values for consecutive integer indices starting at 0. When the index argument is out of the iterables range of data, then __getitem__ must raise IndexError.
