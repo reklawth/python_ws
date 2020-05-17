@@ -35,3 +35,9 @@ Iterators are also required to implement __next__(), the function called by next
 ## __getitem__()
 
 Rather than implementing the __iter__ method, an object can implement the __getitem__ method.  For this to work, __getitem__ must return values for consecutive integer indices starting at 0. When the index argument is out of the iterables range of data, then __getitem__ must raise IndexError.
+
+## Extended iter() form
+
+Normally iter() is called on objects that support the __iter__ method of the iterable protocol.  However, iter() supports a two-argument form that lets you iterate over some objects which do not directly support the iterable protocol.
+
+In this exte ded form, the ifrst argumet is a callable which takes zero arguments.  The second argument is a sentinel value.  The return value from iter() in this case is an iterator which produces values by repeatedly calling the callable argument.  This iterator terminates when the value produced by the callable is equal to the sentinel.
