@@ -2,6 +2,18 @@ Python's concept of iteration and iterable objects is fairly simple and adbstrac
 
 Some if the ideas on how to work it iterables were originally developed in the functional programming community.  So some people may refer to the use of these techniques as "functional-style" Python.  Whether you think of these as a separate programming paradigm or just as moe tools in the programming arsenal, these functions can be very useful and are often the best way to express certain computations.
 
+## Comprehension
+
+Comprehensions can process more than on input series
+
+Multiple input series in comprehensions work like nested for-loops
+
+Comprehensions can also have multiple if-clouses intersperse with the for-clauses
+
+Later clauses in comprehension can reference variables bound in earlier clauses
+
+Comprehension can also appear in the result expression of a comprehension, resulting in a nested result series.
+
 ## map()
 
 The map() function is probably one of hte most widely recognized functional programming tools in Python.  Given a callable object and a sequence of objects, map() calls the function once for every elemement in the source series, producing a new series containing the return values of the function.  In functional programming jargon, we "map" a function over a sequence to produce a new sequence.
@@ -20,7 +32,7 @@ In Python 3 the map and filter functions return a lazily-produced series of valu
 
 ## functools.reduce()
 
-The reduce() function is in the funtools standard library module.  You can iplemnet both map and filter in terms of reduce.  reduce() repeatedly applies a function of two argument to an interim accumulator value and the elements of the series, updating - or accumulating - the interim value at each step with the result of the called function.  Ultimately the final value of the accumulator is returned, thereby reducing the series down to a single value.
+reduce() is a generalization of summation.  The reduce() function is in the funtools standard library module.  You can iplemnet both map and filter in terms of reduce.  reduce() repeatedly applies a function of two argument to an interim accumulator value and the elements of the series, updating - or accumulating - the interim value at each step with the result of the called function.  Ultimately the final value of the accumulator is returned, thereby reducing the series down to a single value.
 
 ## Iterables
 
