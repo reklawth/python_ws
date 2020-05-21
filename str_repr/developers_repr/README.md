@@ -12,9 +12,9 @@ The repr of an object is inteded to be used by developers for logging, debugging
 
 ## Always implement a repr() for your classes
 
-All objects come with a defual implementation of __repr__(), but you'll almost always want to overide this.  The default representation tells you the class name and the ID of the object, but it tells you nothing about the important attributes.
+All objects come with a defual implementation of `__repr__()`, but you'll almost always want to overide this.  The default representation tells you the class name and the ID of the object, but it tells you nothing about the important attributes.
 
-It is a good idea to always implement __repr__() for any class that you write.  It does not take much work to write a good repr(), ahd the work pays of whe you are debugging or scanning logs.
+It is a good idea to always implement `__repr__()` for any class that you write.  It does not take much work to write a good repr(), ahd the work pays of whe you are debugging or scanning logs.
 
 # Leveraging reprlib for large strings
 
