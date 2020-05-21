@@ -14,3 +14,14 @@ Multiple inheritance simply means defining classes with more than one direct bas
 ```
 class Subclass(Base1, Base2, Base3):
      # ...
+```
+
+## MRO: Method Resolution Order
+
+The MRO of a class is the ordering of a class's inheritance graphu used to determine which implementation to use when a method is invoked.  When you invoke a method on an object which has one or more base-classes, the actual code that gets run may be defined on:
+  - the class itself
+  - one of its direct base-classes
+  - a base-class of a base-class
+  - any other member of the class's inheritance graph
+
+The MRO of a class determines the order in which the inheritance graph is searcehed to fine the correct implementation of this method.  When you call a method on an object in Python it looks at the MRO for that object's type.  For each entry in the MRO, starting at the front and working in order to the back, Python checks if that class has the requested method.  Once Pythong finds a class with a matching method it uses that method and the search stops.
