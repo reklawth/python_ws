@@ -24,11 +24,11 @@ The MRO of a class is the ordering of a class's inheritance graphu used to deter
   - a base-class of a base-class
   - any other member of the class's inheritance graph
 
-The MRO of a class determines the order in which the inheritance graph is searcehed to fine the correct implementation of this method.  When you call a method on an object in Python it looks at the MRO for that object's type.  For each entry in the MRO, starting at the front and working in order to the back, Python checks if that class has the requested method.  Once Pythong finds a class with a matching method it uses that method and the search stops.
+The MRO of a class determines the order in which the inheritance graph is searcehed to fine the correct implementation of this method.  When you call a method on an object in Python it looks at the MRO for that object's type.  For each entry in the MRO, starting at the front and working in order to the back, Python checks if that class has the requested method.  Once Python finds a class with a matching method it uses that method and the search stops.
 
 ### How is MRO calculated?
 
-Pythong uses an algorithm known as C3 linearization for determining MRO.  A few of the important qualities of the MRO that it produces are:
+Python uses an algorithm known as C3 linearization for determining MRO.  A few of the important qualities of the MRO that it produces are:
 
 1. A C3 MRO ensures that subclasses come before their base-classes
 2. C3 ensures that the base-class order as defined in a class definition is also preserved.
@@ -37,3 +37,26 @@ Pythong uses an algorithm known as C3 linearization for determining MRO.  A few 
 ### Inconsistent MROs
 
 One outcome of the C3 algorithm is that not all inheritance declarations are allowed in Python.  Some base-class declarations will violate C3 and Python will refuse to compile them.
+
+# super()
+
+Given a method resolution order and a class C in that MRO, super() gives you an object which resolves methods usng only the part of the MRO which comes after C.
+
+In other words, super() does not work iwth the base-classes of a class, but instead it works with the MRO of the type of the ovject on which a method was originally invoked.
+
+super() can be called in several forms.  All of them return a so-called super proxy object.  You can call any method on a super proxy, and it will route that call to the correct method implementation if one exists.
+
+There are two high-level types of super proxies, bound and unbound.  Bound proxies are bound to instances or class objects.  Unbound proxies are not connect to any instance.  Unbound proxies ar primarily an implementation detail for other Python features.  They seem to be considered insignificant.
+
+## class-bound proxies
+
+To create a class-bound proxy use this form:
+
+`super(base-class, derived-class)`
+
+Here, both arguments are class objects.  The second class must be a subclass of (or the same class as) the first argument.
+
+When you invode a method on the proxy here is what happens:
+1. Python finds the MRO for derived-class
+2. It then finds base-class in that MRO
+3. It takes everything after base-class in the MRO and finds the first class in that sequence with a method name matching the request.
