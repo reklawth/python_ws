@@ -25,3 +25,15 @@ The MRO of a class is the ordering of a class's inheritance graphu used to deter
   - any other member of the class's inheritance graph
 
 The MRO of a class determines the order in which the inheritance graph is searcehed to fine the correct implementation of this method.  When you call a method on an object in Python it looks at the MRO for that object's type.  For each entry in the MRO, starting at the front and working in order to the back, Python checks if that class has the requested method.  Once Pythong finds a class with a matching method it uses that method and the search stops.
+
+### How is MRO calculated?
+
+Pythong uses an algorithm known as C3 linearization for determining MRO.  A few of the important qualities of the MRO that it produces are:
+
+1. A C3 MRO ensures that subclasses come before their base-classes
+2. C3 ensures that the base-class order as defined in a class definition is also preserved.
+3. C3 preserves the first two qualities independent of where in an inheritance graph you calculate the MRO.  The MROs for all classes in a graph agree with respec to relative class order.
+
+### Inconsistent MROs
+
+One outcome of the C3 algorithm is that not all inheritance declarations are allowed in Python.  Some base-class declarations will violate C3 and Python will refuse to compile them.
