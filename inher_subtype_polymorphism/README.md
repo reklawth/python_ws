@@ -60,3 +60,17 @@ When you invode a method on the proxy here is what happens:
 1. Python finds the MRO for derived-class
 2. It then finds base-class in that MRO
 3. It takes everything after base-class in the MRO and finds the first class in that sequence with a method name matching the request.
+
+## instance-bound proxies
+
+Instance-bound proxies work similarly to class-bound proxies, however instead of binding to a class object they bind to an instance.  Create an instance-bound proxy with a call to super():
+
+`super(class, instance-of-class)`
+
+The first argument must be a class object, and the second argument must be an instance of that class or cany class derived from it.
+
+The behavior of the super proxy in this case:
+
+1. Python finds the MRO for the type of the second argument.
+2. Python then finds the local of the first argument to super() in that MRO; remember that the instance must be derived from the class, so the class must be in the MRO.
+3. Python takes everything in the MRO after the class and suses that as the MRO for resolving methods.
