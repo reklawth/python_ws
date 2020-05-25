@@ -74,3 +74,15 @@ The behavior of the super proxy in this case:
 1. Python finds the MRO for the type of the second argument.
 2. Python then finds the local of the first argument to super() in that MRO; remember that the instance must be derived from the class, so the class must be in the MRO.
 3. Python takes everything in the MRO after the class and suses that as the MRO for resolving methods.
+
+## no-argument super() calls
+
+super() can be called in a method with no arguments, and Python will sort out the arguments on its own.  If you are in an instance method (that is a method which takes an instance as its first argument) and you call super() without arguments that is the same as calling super() with the class of the method as the first argument and self as the second.  In the simple case of single inheritiance, then this is equivalent to looking for a method on the base-class.
+
+If you call super() without arguments in a class method, Python sets the arguments for you so that it is equivalent to calling super() with the class of the method as the first argument and the classmethods first argument (that is, the "class" argument) as the second.  IN the typcial case, this is equivalent to calling the method of the base-class.
+
+In both cases - instance methods and class methods - calling super() with no arguments puts the class of the method as the first argument to super() and the first argument to the method itself as the second.
+
+## `object`
+
+The core of the Python object model is a class called `object`, which is the ultimate base-calss for every class in Pythoon.  It is at the root of every inheritance graph, and it shows up in every MRO.  If a class is defined with no base-class `object` is the base automatically. 
