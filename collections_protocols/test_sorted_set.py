@@ -1,3 +1,6 @@
+# test_sorted_set.py
+# UTF-8
+
 import unittest
 
 from sorted_set import SortedSet
@@ -23,5 +26,8 @@ class TestConstruction(unittest.TestCase):
         g = gen6842()
         s = SortedSet(g)
 
-    if __name__ == '__main__':
-        unittest.main()
+    def test_default_empty(self):
+        s = SortedSet()
+
+if __name__ == '__main__':
+    unittest.main()
