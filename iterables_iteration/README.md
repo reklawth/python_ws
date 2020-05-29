@@ -36,20 +36,20 @@ reduce() is a generalization of summation.  The reduce() function is in the funt
 
 ## Iterables
 
-An iterable object in Python is simply an object that supports the iterable protocol by implementing __iter__(). When you call iter(obj), this ultimately results in a call to obj.__iter__(), and iter() returns the result of this call .__iter__() is required to return an iterator
+An iterable object in Python is simply an object that supports the iterable protocol by implementing `__iter__()`. When you call iter(obj), this ultimately results in a call to obj.`__iter__()`, and iter() returns the result of this call .`__iter__()` is required to return an iterator
 
 ## Iterators
 
-An iterator is simply an object that fulfills the iterator protocol.  he first part of the iterator protocol is the iterable protocol.  In other words, all iterators must also be iterable.  This means that all iterators must implement __iter__().  Often (but not always), iterators just return themselves from __iter__() . 
+An iterator is simply an object that fulfills the iterator protocol.  he first part of the iterator protocol is the iterable protocol.  In other words, all iterators must also be iterable.  This means that all iterators must implement `__iter__()`.  Often (but not always), iterators just return themselves from `__iter__()`. 
 
-Iterators are also required to implement __next__(), the function called by next().  Like iter() and __iter__(), next (obj) results in a call to obj.__next__(), the result of which gets returned by next().
+Iterators are also required to implement `__next__()`, the function called by next().  Like iter() and `__iter__()`, next (obj) results in a call to obj.`__next__()`, the result of which gets returned by next().
 
-## __getitem__()
+## `__getitem__()`
 
-Rather than implementing the __iter__ method, an object can implement the __getitem__ method.  For this to work, __getitem__ must return values for consecutive integer indices starting at 0. When the index argument is out of the iterables range of data, then __getitem__ must raise IndexError.
+Rather than implementing the `__iter__` method, an object can implement the `__getitem__` method.  For this to work, `__getitem__` must return values for consecutive integer indices starting at 0. When the index argument is out of the iterables range of data, then `__getitem__` must raise `IndexError`.
 
 ## Extended iter() form
 
-Normally iter() is called on objects that support the __iter__ method of the iterable protocol.  However, iter() supports a two-argument form that lets you iterate over some objects which do not directly support the iterable protocol.
+Normally iter() is called on objects that support the `__iter__` method of the iterable protocol.  However, iter() supports a two-argument form that lets you iterate over some objects which do not directly support the iterable protocol.
 
 In this exte ded form, the ifrst argumet is a callable which takes zero arguments.  The second argument is a sentinel value.  The return value from iter() in this case is an iterator which produces values by repeatedly calling the callable argument.  This iterator terminates when the value produced by the callable is equal to the sentinel.
