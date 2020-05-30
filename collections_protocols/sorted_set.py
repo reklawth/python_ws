@@ -17,3 +17,7 @@ class SortedSet:
 
     def __iter__(self):
         return iter(self._items)
+
+    def __getitem__(self, index):
+        result = self._items[index]
+        return SortedSet(result) if isinstance(index, slice) else result
