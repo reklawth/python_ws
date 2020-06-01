@@ -211,3 +211,30 @@ The dominate purpose of the above is to detect when a `slice` object has been pa
         result = self._items[index]
         return SortedSet(result) if isinstance(index, slice) else result
 ```
+The above tests will now fail, and we will need to implement the `__repr__()` special method.
+
+## repr()
+
+Create the `TestReprProtocol` class in `test_sorted_set.py`
+```py
+class TestReprProtocol(unittest.TestCase):
+
+    def test_repr_empty(self):
+        s = SortedSet()
+        self.assertEqual(repr(s), "SortedSet()")
+
+    def test_repr)one(self):
+        s = SortedSet([42, 40, 19])
+        self.assertEqual(repr(s), "SortedSet([19, 40, 42])")
+```
+
+Including the above code block increases the number of failed tests from five to seven.  Implementing `__repr__()` in the 'SortedSet` class will reduce failed tests back down to five:
+```py
+class SortedSet:
+    
+    def __repr__(self):
+        return "SortedSet({})".format(repr(self._items) if self._items else '')
+```
+Follow the lead of the built-in collections and render an argumentless constructor call into the string if the collection is empty.  If there are aitems in the collection delegate to the list repr() to render the argument.  Notice the implicit conversion of the self._items list to the bool in the conditional; if the collection is empty this expression evalutates to `False` in this boolean context.
+
+The above code will allow the repr() tests to pass, it will also give more verbose output on issues with the remaining tests.  From the output it seems that there is an equality issue occurring.
