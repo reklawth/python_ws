@@ -238,3 +238,42 @@ class SortedSet:
 Follow the lead of the built-in collections and render an argumentless constructor call into the string if the collection is empty.  If there are aitems in the collection delegate to the list repr() to render the argument.  Notice the implicit conversion of the self._items list to the bool in the conditional; if the collection is empty this expression evalutates to `False` in this boolean context.
 
 The above code will allow the repr() tests to pass, it will also give more verbose output on issues with the remaining tests.  From the output it seems that there is an equality issue occurring.
+
+## equality
+
+Python equality comparisions - which are inherited from the ultimate base class object - are for reference equality rather than value equality or equivalence.  For more information see `sequence_protocol_equality.ipynb`.  To get the desired behaviour for the `SortedSet` class, more tests will be created using the `list` equality to override the default equality implementation:
+```py
+class TestEqualityProtocol(unittest.TestCase):
+
+    def test_positive_equal(self):
+        self.assertTrue(SortedSet([4, 5, 6]) == SortedSet([6, 5, 4]))
+
+    def test_negative_equal(self):
+        self.assertFalse(SortedSet([4, 5, 6]) == SortedSet([1, 2, 3]))
+
+    def test_type_mismatch(self):
+        self.assertFalse(SortedSet([4, 5, 6])) == [4, 5, 6])
+
+    def test_identical(self):
+        s = SortedSet([10, 11, 12])
+        self.assertTrue(s == s)
+```
+In the above `assertTrue()` and `assertFalse()` are used rather than `assertEqual()` and `assertNotEqual()`.  This leaves the equality operator in plain sight and it ensures that the tests are couched in terms of the equality opertor only, not the inequality operator.
+
+Now implement a specialized equality for SortedSet by overrideing the __eq__() special method.  The implmentation just delegates to the same operator with the enclosed lists of the left-hand-side operand (in this case self) and right-hand-side operand (abbreviated as rhs):
+```py
+class SortedSet:
+    # ...
+    def __eq__(self, rhs):
+        return self._items == rhs._items
+```
+Now the `type-mismatch` test fails.  The implementation will need to be refined to include a type check.  Follow the Python convention of returning the special built-in singleton value `NotImplemented` if the types do not match:
+```py
+class SortedSet:
+
+    def __eq__(self, rhs):
+        if not isinstance(rhs, SortedSet):
+            return NotImplemented
+        return self.items == rhs._items 
+```
+Notice the `NotImplemented` object is _returned_ rather than _raising_ a `NotImplementedError`.  In the Python language this is a curiousity, and the runtime will use it to retry the comparison once with the arguments reversed, potentially giving a different implementation of `__eq__()` on another object a chance to respond.  Read more at https://docs.python.org/3/reference/datamodel.html?highlight=eq#object.eq
