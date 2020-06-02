@@ -133,6 +133,23 @@ class TestSequenceProtocol(unittest.TestCase):
         self.assertEqual(next(r), 1)
         with self.assertRaises(StopIteration):
             next(r)
+
+    def test_index_positive(self):
+        s = SortedSet([1, 5, 8, 9])
+        self.assertEqual(s.index(8), 2)
+    
+    def test_index_negative(self):
+        s = SortedSet([1, 5, 8, 9])
+        with self.assertRaises(ValueError):
+            s.index(15)
+   
+    def test_count_zero(self):
+        s = SortedSet([1, 5, 7, 9])
+        self.assertEqual(s.count(11), 0)
+
+    def test_count_one(self):
+        s = SortedSet([1, 5, 7, 9])
+        self.assertEqual(s.count(7), 1)
         
 class TestReprProtocol(unittest.TestCase):
 

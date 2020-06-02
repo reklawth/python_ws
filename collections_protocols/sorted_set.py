@@ -1,7 +1,9 @@
 # sorted_set.py
 # UTF-8
 
-class SortedSet:
+from collections import Sequence
+
+class SortedSet(Sequence):
 
   #  def __init__(self, items=None):
   #      self._items = sorted(items) if items is not None else []

@@ -313,3 +313,49 @@ class TestSequenceProtocol(unittest.TestCase):
         with self.assertRaises(StopIteration):
             next(r)
 ```
+The above tests pass with no alternation to `sorted_set.py` needed.  By default, the implmeentation of `reversed()` will check for the presence of the `__reversed__()` special method and delegate to that.  However if `__reversed__()` has not been implemented but both `__getitem__()` and `__len__()` are supported, `reversed()` will produce an iterator that internally walkes back trhoug the sequence by decrementing an index.  
+
+Next, create tests for `index()` and `count()` First the `index()` method, which should return the index of the first matching item in the collection or raise a `ValueError`:
+```py
+class TestSequenceProtocol(unittest.TestCase):
+    # ...
+    def test_index_positive(self):
+        s = SortedSet([1, 5, 8, 9])
+        self.assertEqual(s.index(8), 2)
+    
+    def test_index_negative(self):
+        s = SortedSet([1, 5, 8, 9])
+        with self.assertRaises(ValueError):
+            s.index(15)
+```
+Both of the above test fail because `index()` has not been implemented, because it is a regular method there are no opportunities for fallback mechanisms in the Python implmeentation to kick it.  It is possible to implement index() in terms of methods that we have already in place, such as `__getitem__()`.
+
+Such default implementations are available in the Python Standard Library in the base classes of the `collections.abc` module.  This module contains many classes which can be inherited by - or _mixed in_ to - classes, reducing some of the work in collection protocol implementation.
+
+The following example uses the collections.abc.Sequence class, which by providing implementation of `__getitem__` and `__len__` will provide a whole raft of mixin methods, including `index()`.  `SortedSet` is made a subclass of `Sequence` in the example below:
+```py
+# sorted_set.py
+# UTF-8
+
+from collections import Sequence
+
+class SortedSet(Sequence):
+
+    # ...
+```
+Now the `index()` unit tests pass.
+
+Next ensure that `count()` is also correctly implemented.  Recall that `count()` returns the number of times a specified item occurs in a list.  Below are appended tests in the `TestSequenceProtocol` class:
+```py
+class TestSequenceProtocol(unittest.TestCase):
+
+    # ...
+    def test_count_zero(self):
+        s = SortedSet([1, 5, 7, 9])
+        self.assertEqual(s.count(11), 0)
+
+    def test_count_one(self):
+        s = SortedSet([1, 5, 7, 9])
+        self.assertEqual(s.count(7), 1)
+```
+Because of the inheritance of the `Sequence` abstract base class, the above tests work immediately.
