@@ -297,4 +297,19 @@ class TestInequalityProtocol(unittest.TestCase):
         s = SortedSet([10, 11, 12])
         self.assertFalse(s != s)
 ```
-The above tests require no additional changes to the implementation (`sorted_set.py`), demonstrating that Python will implement inequality by negating the equality operator.  However it is also possible to override the `__ne__()` special method if inequality needs its own implementation. 
+The above tests require no additional changes to the implementation (`sorted_set.py`), demonstrating that Python will implement inequality by negating the equality operator.  However it is also possible to override the `__ne__()` special method if inequality needs its own implementation.
+
+At the point the collection is an _iterable_, _sized_, _container_ which implements `__getitem__()` from the _sequence_ protocol.  It is lacking support for reverse iterators as well as `index()` and `count()`.  The `reversed()` built-in function should return an iterator which yields the collection items in reverse order.  Below, additional tests are appended to the `TestSequenceProtocol` class:
+```py
+class TestSequenceProtocol(unittest.TestCase):
+    # ...
+    def test_reversed(self):
+        s = SortedSet([1, 3, 5, 7])
+        r = reversed(s)
+        self.assertEqual(next(r), 7)
+        self.assertEqual(next(r), 5)
+        self.assertEqual(next(r), 3)
+        self.assertEqual(next(r), 1)
+        with self.assertRaises(StopIteration):
+            next(r)
+```
