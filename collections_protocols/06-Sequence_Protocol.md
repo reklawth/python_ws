@@ -277,3 +277,24 @@ class SortedSet:
         return self.items == rhs._items 
 ```
 Notice the `NotImplemented` object is _returned_ rather than _raising_ a `NotImplementedError`.  In the Python language this is a curiousity, and the runtime will use it to retry the comparison once with the arguments reversed, potentially giving a different implementation of `__eq__()` on another object a chance to respond.  Read more at https://docs.python.org/3/reference/datamodel.html?highlight=eq#object.eq
+
+## inequality
+
+Add inequality tests in the `TestInequalityProtocol` class:
+```py
+class TestInequalityProtocol(unittest.TestCase):
+
+    def test_positive_unequal(self):
+        self.assertTrue(SortedSet([4, 5, 6]) != SortedSet(1, 2, 3]))
+
+    def test_negative_unequal(self):
+        self.assertFalse(SortedSet([4, 5, 6]) != SortedSet([6, 5, 4]))
+
+    def test_type_mismatch(self):
+        self.assertTrue(SortedSet([1, 2, 3]) != [1, 2, 3])
+
+    def test_identical(self):
+        s = SortedSet([10, 11, 12])
+        self.assertFalse(s != s)
+```
+The above tests require no additional changes to the implementation (`sorted_set.py`), demonstrating that Python will implement inequality by negating the equality operator.  However it is also possible to override the `__ne__()` special method if inequality needs its own implementation. 
