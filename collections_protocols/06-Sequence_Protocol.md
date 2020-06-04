@@ -359,3 +359,25 @@ class TestSequenceProtocol(unittest.TestCase):
         self.assertEqual(s.count(7), 1)
 ```
 Because of the inheritance of the `Sequence` abstract base class, the above tests work immediately.
+
+## Improving `count()` implementation
+
+Knowing that the `count()` operation on a `SortedSet` only ever returns a zero or one,  and knowing that the list inside of the set is always sorted, it should be possilbe to perform a bindary search for the element in a time proportional to _log^n_ rather than _n_ (where _n_ is the number of elements in the set, and _log^n_ will always be much smaller than _n_).
+
+A binary search implmentation is available in the Python standard library in the bisect module.  Now override the `count()` implementation:
+
+```py
+# sorted_set.py
+# UTF-8
+
+from bisect import bisect_left
+
+class SortedSet(Sequence):
+
+    def count(self, item):
+        index = bisect_left(self._items, item)
+        found = (index != len(self._items)) and (self._items[index] == item)
+        return int(found)
+```
+
+This method works by using the bisect_left() function to determine at which index `item` would need to be inserted into `self._items` in order to maintain sorted order.  Then check that `index` is within the bounds of the list and whether the element at that index is equivalent to the item being sought.  Assign this boolean value to the variable found.  Finally, convert the `bool` to an `int` which results in zero and ove for `False` and `True` respectively.
