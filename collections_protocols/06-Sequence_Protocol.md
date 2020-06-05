@@ -404,4 +404,30 @@ def count(self, item):
     return int(item in self._items)
 ```
 
+## Improving the implementation of index()
 
+The `index()` implementation inherited from Sequence is not very efficient.  It performs a relatively inefficient linear search.  That can be fixed using the `bisect` module.  Becasue the tests are already in place, proceed with directly overriding the method:
+```py
+# sorted_set.py
+# UTF-8
+
+# ...
+class SortedSet(Sequence):
+    # ...
+    def index(self, item):
+        index = bisect_left(self._items, item)
+        if (index != len(self._items)) and self._items[index] == item:
+            return index
+        raise ValueError("{} not found".format(repr(item)))
+```
+As there seems to be repition between `index()` and what is already in `__contains__()`, there is an option to implemet `__contains__()` in terms of `index()` like this:
+```py
+class SortedSet(Sequence):
+    # ...
+    def __contains__(self, item):
+        try:
+            self.index(item)
+            return True
+        except ValueError:
+            return False
+```
