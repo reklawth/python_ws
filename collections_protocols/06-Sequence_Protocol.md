@@ -381,3 +381,27 @@ class SortedSet(Sequence):
 ```
 
 This method works by using the bisect_left() function to determine at which index `item` would need to be inserted into `self._items` in order to maintain sorted order.  Then check that `index` is within the bounds of the list and whether the element at that index is equivalent to the item being sought.  Assign this boolean value to the variable found.  Finally, convert the `bool` to an `int` which results in zero and ove for `False` and `True` respectively.
+
+## Refactoring common code
+
+The `found` variable in the new implementation of `count()` represents exactly the same result as would be obtained from the `__contains__()` method that was written for the implementation of the _container_ protocol.  Refactor by extracting the efficient search implementation into `__contains__()` and use the membership test withing `count()`.  The `__contains__()` method is now edited to:
+```py
+# sorted_set.py
+# UTF-8
+
+# ...
+class SortedSet(Sequence):
+
+# ...
+    def __contains__(self, item):
+
+        index = bisect_left(self._item)
+        return (index !=len(self._items)) and self._items[index] == item
+```
+The `count()` method is now reduced to:
+```py
+def count(self, item):
+    return int(item in self._items)
+```
+
+
