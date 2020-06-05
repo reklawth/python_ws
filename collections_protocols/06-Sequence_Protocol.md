@@ -431,3 +431,32 @@ class SortedSet(Sequence):
         except ValueError:
             return False
 ```
+## Still need to use `collections.abc.Sequence`?
+
+Add tests to cover inheritance from the `Container`, `Sized`, `Iterable`, and `Sequence` ABCs:
+```py
+# test_sorted_set.py
+# UTF-8
+from collections.abc import Container, Iterable, Sequence, Sized
+# ...
+class TestContainerProtocol(unittest.TestCase):
+    # ...
+    def test_protocol(self):
+        self.assertTrue(issubclass(SortedSet, Container))
+
+class TestSizedProtocol(unittest.TestCase):
+    # ...
+    def test_protocol(self):
+        self.assertTrue(issubclass(SortedSet, Sized))
+
+class TestIterableProtocol(unittest.TestCase):
+    # ...
+    def test_protocol(self):
+        self.assertTrue(issubclass(SortedSet, Iterable))
+
+class TestSequenceProtocol(unittest.TestCase):
+    # ...
+    def test_protocol(self):
+        self.assertTrue(issubclass(SortedSet, Sequence))
+```
+Originially, only the last of the above four tests fail.  As the SortedSet class is still a subclass of Sequence, even teh last class will pass.  A powerful feature of the `issubclass()` function allows it to take advantage of the duck-typing without explicit inheritance in relation to the Abstract Base Class system.
