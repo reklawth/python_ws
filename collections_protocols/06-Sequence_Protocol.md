@@ -460,3 +460,43 @@ class TestSequenceProtocol(unittest.TestCase):
         self.assertTrue(issubclass(SortedSet, Sequence))
 ```
 Originially, only the last of the above four tests fail.  As the SortedSet class is still a subclass of Sequence, even teh last class will pass.  A powerful feature of the `issubclass()` function allows it to take advantage of the duck-typing without explicit inheritance in relation to the Abstract Base Class system.
+
+## Implementing concatenation and repition
+
+Concatenation and repition of sequences can be performed with the add and multiply operators.  Neither of these two operators are enforced or supplied by the `Sequence` abstract base class, because they are part of the informally described _extended sequence protocol_, to which many Python sequence types such as `list` and `str` conform, but to which others, such as `range` do not.
+
+Implement concatenation as a set-union operator which results in a set containing all elements from both operands.  Append additonal tests.
+```py
+# test_sorted_set.py
+# UTF-8
+
+class TestSequenceProtocol(unittest.TestCase):
+    # ...
+
+    def test_concatenate_disjoint(self):
+        s = SortedSet([1, 2, 3])
+        t = SortedSet([4, 5, 6])
+        self.assertEqual(s + t, SortedSet([1, 2, 3, 4, 5, 6]))
+
+    def test_concatenate_equal(self):
+        s = SortedSet([2, 4, 6])
+        self.assertEqual(s + s, s)
+
+    def test_concatenate_intersecting(self):
+        s = SortedSet([1, 2, 3])
+        t = SortedSet([3, 4, 5])
+        self.assertEqual(s + t, SortedSet([1, 2, 3, 4, 5]))
+```
+To get these tests to pass, implement support for the infix plus operator, which is done via the special method `__add__()`:
+```py
+# sorted_set.py
+# UTF-8
+
+from itertools import chain
+
+class SortedSet(Sequence):
+    # ...
+    def __add__(self, rhs):
+        return SortedSet(chain(self._items, rhs._items))
+```
+Rather than simply concatenating the enclosed list of the two operands, which could result in a large temporary intermediate list object use `itertools.chain()`.  This requires and additional import at the top of the module.  `chain` streams all values from one operand and then the other into the `SortedSet` constructor.  The tests should execute as expected.

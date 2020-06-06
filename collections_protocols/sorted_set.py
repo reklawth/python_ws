@@ -3,6 +3,7 @@
 
 from collections import Sequence
 from bisect import bisect_left
+from itertools import chain
 
 class SortedSet(Sequence):
 
@@ -41,3 +42,6 @@ class SortedSet(Sequence):
         if (index != len(self._items)) and self._items[index] == item:
             return index
         raise ValueError("{} not found".format(repr(item)))
+
+    def __add__(self, rhs):
+        return SortedSet(chain(self._items, rhs._items))
