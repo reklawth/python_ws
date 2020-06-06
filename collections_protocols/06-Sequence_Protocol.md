@@ -459,7 +459,7 @@ class TestSequenceProtocol(unittest.TestCase):
     def test_protocol(self):
         self.assertTrue(issubclass(SortedSet, Sequence))
 ```
-Originially, only the last of the above four tests fail.  As the SortedSet class is still a subclass of Sequence, even teh last class will pass.  A powerful feature of the `issubclass()` function allows it to take advantage of the duck-typing without explicit inheritance in relation to the Abstract Base Class system.
+Originially, only the last of the above four tests fail.  As the SortedSet class is still a subclass of Sequence, even the last class will pass.  A powerful feature of the `issubclass()` function allows it to take advantage of the duck-typing without explicit inheritance in relation to the Abstract Base Class system.
 
 ## Implementing concatenation and repition
 
@@ -500,3 +500,57 @@ class SortedSet(Sequence):
         return SortedSet(chain(self._items, rhs._items))
 ```
 Rather than simply concatenating the enclosed list of the two operands, which could result in a large temporary intermediate list object use `itertools.chain()`.  This requires and additional import at the top of the module.  `chain` streams all values from one operand and then the other into the `SortedSet` constructor.  The tests should execute as expected.
+
+Implementing repetions which for lists works like repeated concatenation to the original list.  This will have to effect for `SortedSet` so it is only necessary to return a new object which is equivalent to the existing one, unless the multiplicand is less than one, in which case retrun an empty collection.  Here are the unit tests:
+```py
+# test_sorted_set.py
+# UTF-8
+class TestSequenceProtocol(unittest.TestCase):
+    # ...
+
+    def test_repetition_zero_right(self):
+        s = SortedSet([4, 5, 6])
+        self.assertEqual(s * 0, SortedSet())
+
+    def test_repitition_nonzero_right(self):
+        s = SortedSet([4, 5, 6])
+        self.assertEqual(s * 100, s)
+```
+To get these tests to pass implement the infix multiplication operator.  This delegates to the `__mul__()` special method for cases where our class is on the left-hand side:
+```py
+# sorted_set.py
+# UTF-8
+
+class SortedSet(Sequence):
+    # ...
+    def __mul__(self, rhs):
+        return self if rhs > 0 else SortedSet()
+```
+In the above, `self` or an empty set is returned depending on the value of the right-hand side.  Nore that the only reason `self` can be returned is becasue the `SortedSet` objects are immutable.  If they were to be made mutable, it would be necessary to return a _copy_ of the `self` object.  This could be achieved either by simply passing `self` to the `SortedSet()` constructor, or perhaps by implementing a more efficient `copy()` method.
+
+Note that the `__mul__()` method is not invoked if the operands are reversed:
+```py
+# test_sorted_set.py
+# UTF-8
+
+class TestSequenceProtocol(unittest.TestCase):
+    # ...
+    def test_repitition_zero_left(self):
+        s = SortedSet([4, 5, 6])
+        self.assertEqual(0 * s, SortedSet())
+
+    def test_repitition_nonzero_left(self):
+        s = SortedSet([4, 5, 6])
+        self.assertEqual(100 * s, s)
+```
+For cases where the class is on the right-hand-side, the `__rmul__()` operator must be implemented as well:
+```py
+# sorted_set.py
+# UTF-8
+
+class SortedSet(Sequence):
+    # ...
+    def __rmul__(self, lhs):
+        return self * lhs
+```
+Since the order of the operands does not matter for repititon, `__rmul__()` simply delegates to `__mul__()`.  At this point there is a `SortedSet` implementation that implements the _container_, _sized_, _iterable_, and _sequence_ protocols very comprehensively, robust and efficiently.

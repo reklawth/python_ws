@@ -45,3 +45,6 @@ class SortedSet(Sequence):
 
     def __add__(self, rhs):
         return SortedSet(chain(self._items, rhs._items))
+
+    def __mul__(self, rhs):
+        return self if rhs > 0 else SortedSet()
