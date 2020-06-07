@@ -1,3 +1,13 @@
+# The _set_ protocol
+
+The previous work has been implementing a set which maintains its elements in sorted order, it is reasonable that it should support the _set_ protocol.  In the _collections.abc_ documentation , there is a reference to an abstract base class called `Set` with abstract methods `__contains__()`, `__iter__()`, and `__len__()`.  It brings a vevy of special methods which implement various set operators including all the relational operators..  These will allow the comparison of `SortedSet` objects in terms of subset and superset relationships.  The abstract base-class only provides the special methods for the infix operator suport.
+
+One inportant differencce between the operator and method versions of these operations is that while the operators require that the operands both be of the same type, the method versions will accept any iterable series as an argument.
+
+## Tests for _set_ protocol
+
+Create unit tests of these infix relational operators and their named method equivalents.
+```py
 # test_sorted_set.py
 # UTF-8
 
@@ -224,7 +234,8 @@ class TestInequalityProtocol(unittest.TestCase):
     def test_identical(self):
         s = SortedSet([10, 11, 12])
         self.assertFalse(s != s)
-
+```
+```py
 class TestRelationalSetProtocol(unittest.TestCase):
 
     def test_lt_positive(self):
@@ -308,6 +319,8 @@ class TestSetRelationalMethods(unittest.TestCase):
         s = SortedSet({1, 2})
         t = [1, 2, 3]
         self.assertFalse(s.issuperset(t))
-        
+
 if __name__ == '__main__':
     unittest.main()
+```
+The above tests will fail.
