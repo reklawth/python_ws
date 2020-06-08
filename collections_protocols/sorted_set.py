@@ -1,11 +1,11 @@
 # sorted_set.py
 # UTF-8
 
-from collections import Sequence
+from collections import Sequence, Set
 from bisect import bisect_left
 from itertools import chain
 
-class SortedSet(Sequence):
+class SortedSet(Sequence, Set):
 
   #  def __init__(self, items=None):
   #      self._items = sorted(items) if items is not None else []
@@ -48,3 +48,21 @@ class SortedSet(Sequence):
 
     def __mul__(self, rhs):
         return self if rhs > 0 else SortedSet()
+
+    def issubset(self, iterable):
+        return self <= SortedSet(iterable)
+    
+    def issuperset(self, iterable):
+        return self >= SortedSet(iterable)
+
+    def intersection(self, iterable):
+        return self & SortedSet(iterable)
+
+    def union(self, iterable):
+        return self | SortedSet(iterable)
+
+    def symmetric_difference(self, iterable):
+        return self ^ SortedSet(iterable)
+
+    def difference(self, iterable):
+        return self - SortedSet(iterable)

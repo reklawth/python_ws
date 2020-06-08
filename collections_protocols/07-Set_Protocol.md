@@ -324,3 +324,124 @@ if __name__ == '__main__':
     unittest.main()
 ```
 The above tests will fail.
+The `Set` base-class provides mixins for the special methods corresponding to the bitwise operators.  In the context of the _set_ protocol, bitwise-and & bitwise-or operators are implemented to perform set-intersection and set-union operations respectively.  Furthermore, the infix exclusive-or operator is configured to produce the symmetric-difference of two sets. The `Set` protocol also defines the subtraction operator to perform the set-difference operation, and the `set` class provides a corresponding `difference()` method.
+
+As with the relational operators, the `Set` abstract base-class provides the special methods which underlie the infix operators.  However it does not implement the equivalent public methods used by the set built-in class. Below are the tests for the operators and their corresponding named methods:
+```py
+# test_sorted_set.py
+# UTF-8
+class TestOperationsSetProtocol(unittest.TestCase):
+
+    def test_intersection(self):
+        s = SortedSet({1, 2, 3})
+        t = SortedSet({2, 3, 4})
+        self.assertEqual(s & t, SortedSet({2, 3}))
+
+    def test_union(self):
+        s = SortedSet({1, 2, 3})
+        t = SortedSet({2, 3, 4})
+        self.assertEqual(s | t, SortedSet({1, 2, 3, 4}))
+
+    def test_symmetric_difference(self):
+        s = SortedSet({1, 2, 3})
+        t = SortedSet({2, 3, 4})
+        self.assertEqual(s ^ t, SortedSet({1, 4}))
+
+    def test_difference(self):
+        s = SortedSet({1, 2, 3})
+        t = SortedSet({2, 3, 4})
+        self.assertEqual(s - t, SortedSet({1}))
+
+class TestSetOperationsMethods(unittest.TestCase):
+
+    def test_intersection(self):
+        s = SortedSet({1, 2, 3})
+        t = [2, 3, 4]
+        self.assertEqual(s.intersection(t), SortedSet({2, 3}))
+
+    def test_union(self):
+        s = SortedSet({1, 2, 3})
+        t = [2, 3, 4]
+        self.assertEqual(s.union(t), SortedSet({1, 2, 3, 4}))
+
+    def test_symmetric_difference(self):
+        s = SortedSet({1, 2, 3})
+        t = [2, 3, 4]
+        self.assertEqual(s.symmetric_difference(t), SortedSet({1, 4}))
+
+    def test_difference(self):
+        s = SortedSet({1, 2, 3})
+        t = [2, 3, 4]
+        self.assertEqual(s.difference(t), SortedSet({1}))
+```
+One last mixin method contriburted by the `Set` abstract base class is the `isdisjoint()` method which tests whether two sets have elements in common.  Two new tests will now be added tothe `TestSetRelationalSetProtocol` test case:
+```py
+# test_sorted_set.py
+# UTF-8
+
+class TestRelationalSetProtocoal(unittest.TestCase):
+
+    # ... 
+    def test_isdisjoint_positive(self):
+        s = SortedSet({1, 2, 3})
+        t = [4, 5, 6]
+        self.assertTrue(s.isdisjoint(t))
+
+    def test_isdisjoint_negative(self):
+        s = SortedSet({1, 2, 3})
+        t = [3, 4, 5]
+        self.assertTrue(s.isdisjoint(t))
+```
+At this point the above additional tests fail as well. To get them to pass, have `SortedSet` inherit from the `Set` absract base class. This will use multiple inheritance as it is still inheriting from `Sequence`, which also requires the additional import from `collections`.
+```py
+# sorted_set.py
+# UTF-8
+
+from collections import Sequence, Set
+from bisect import bisect_left
+from itertools import chain
+class SortedSet(Sequence, Set):
+    # ...
+```
+The above edit causes a number of previously failing tests to pass.  The reaminder cover the named methods not inheritied from the `Set` abstrac base class.  Implment those in terms of the inherited operators, remembering to support any iterable series as the argument.Achieve this by constructing a `SortedSet` from each iterable series before applying the operator version:
+```py
+# sorted_set.py
+# UTF-8
+
+from collections import Sequence, Set
+from bisect import bisect_left
+from itertools import chain
+class SortedSet(Sequence, Set):
+    # ...
+    def issubset(self, iterable):
+        return self <= SortedSet(iterable)
+    
+    def issuperset(self, iterable):
+        return self >= SortedSet(iterable)
+
+    def intersection(self, iterable):
+        return self & SortedSet(iterable)
+
+    def union(self, iterable):
+        return self | SortedSet(iterable)
+
+    def symmetric_difference(self, iterable):
+        return self ^ SortedSet(iterable)
+
+    def difference(self, iterable):
+        return self - SortedSet(iterable)
+```
+The `SortedSet` class is now functionally complete.  Conclude by asserting what has been implemented in the `Set` protocol:
+```py
+# test_sorted_set.py
+# UTF-8
+
+from collections import Container, Iterable, Sequence, Set, Sized
+# ...
+class TestSetProtocol(unittest.TestCase):
+    # ...
+    def test_protocol(self):
+        self.assertTrue(issubclass(SortedSet, Set))
+```
+Notice that an immutable set ahs been implemented.  Once constructed its values cannot be modified.  For many applications this is sufficient and indeed a good thing; immutable objects are generally easier to reason about.
+
