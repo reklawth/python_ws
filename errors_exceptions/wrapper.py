@@ -21,6 +21,8 @@ def wrap(text, line_length):
             lines_of_words.append([]) # new line
             current_line_length = 0
         lines_of_words[-1].append(word)
-        current_line_length += len(word)
+        current_line_length += len(word) + len(' ')
     lines = [' '.join(line_of_words) for line_of_words in lines_of_words]
-    return '\n'.join(lines)
+    result = '\n'.join(lines)
+    assert all(len(line) <= line_length for line in result.splitlines())
+    return result
