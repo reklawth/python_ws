@@ -16,3 +16,16 @@ When a `with-statement` is executed, the EXPR part of the statement - that is, t
 Conceptually a context manager implements two methods which are used by the `with-statement`.  The first method is called before the code-blcok of the `with-statement` begins, and hte second method is called after execution of the code in the `with-block` finishes, whether by running to completion, returning early from the enclosing function, or by the rasiing of an exception which is allowed to propogate out of the with-block.
 
 A context manager represents code that runs before and after the code-block of the `with-statement`.  These operations can be thought of as set-up and tear-down, construction and destruction, resource allocation and deallocation or any number of other ways.
+
+## Files as context managers
+
+Python developers will have used files in a with-statement like this:
+```py
+with open('important_data.txt', 'wt') as f:
+    f.write('The secret password is 12345')
+```
+The benefit of using files in a with-statement is that htey are automatically closed at the end of the with-block.  This workds because file objects are context managers.  That is, files have methods which are called by the with-statement before the block is entered, and after the block exits.  The _exit_ method for a file (the code executed after the with-block exits) does the work of closing the file, and this is how files work with with-statements to ensure proper resource management.
+
+## The context manager protocol
+
+For an object to be a context-manager, it needs to support the _context-manager protocol_ which consists of two methods, `__enter__()` and `__exit__()`.
