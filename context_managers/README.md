@@ -29,3 +29,22 @@ The benefit of using files in a with-statement is that htey are automatically cl
 ## The context manager protocol
 
 For an object to be a context-manager, it needs to support the _context-manager protocol_ which consists of two methods, `__enter__()` and `__exit__()`.
+
+## `__enter__()`
+
+The `__enter__()` method is called on the context-manager just before entering the with-block, and its return value is bound to the as-variable of the with-statement.
+
+`__enter__()` is allowed to return anything it wants, including `None`, and the with-statement itself does not ever access or use this value.  It is very common, however, for context-managers to simply return themselves from `__enter__()`. 
+
+## `__exit__()`
+
+The `__exit__()` method is substantially moe complex that `__enter__()` because it poerforms several roles in the execution of a with-statement.  Its first and primary role is that it is executed after the with-block terminates, so it is responsible for cleaning up whatever resources the context-manager controls.
+
+Its second role is to properly handle the case where the with-block exits with an exception.  To handle this caxe, `__exit__()` accepts three arguments:
+* The type of the exception that was raised
+* The value of the exception  (that is, the actual exception instance)
+* The traceback associated with the exception
+
+When a with-block exits without an exception, all three of these arguments are set to `None`, but when it exits exceptionally these arguments are bound to the exception which terminated the block.
+
+In many cases a context-manager needs to perform different `__exit__()` code depending on whether an exception was raised or not, so it is typical for `__exit__()` to first check the exception information before doing anything else.  A common idiom is to check the type arguement to detect an exceptional exit.
