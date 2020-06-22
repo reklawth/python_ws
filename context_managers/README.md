@@ -48,3 +48,5 @@ Its second role is to properly handle the case where the with-block exits with a
 When a with-block exits without an exception, all three of these arguments are set to `None`, but when it exits exceptionally these arguments are bound to the exception which terminated the block.
 
 In many cases a context-manager needs to perform different `__exit__()` code depending on whether an exception was raised or not, so it is typical for `__exit__()` to first check the exception information before doing anything else.  A common idiom is to check the type arguement to detect an exceptional exit.
+
+By default, when an exception is raised from a with-block, the `__exit__()` method of the context-manager is executed and afterward the originial exception is re-raised.
