@@ -50,3 +50,32 @@ When a with-block exits without an exception, all three of these arguments are s
 In many cases a context-manager needs to perform different `__exit__()` code depending on whether an exception was raised or not, so it is typical for `__exit__()` to first check the exception information before doing anything else.  A common idiom is to check the type arguement to detect an exceptional exit.
 
 By default, when an exception is raised from a with-block, the `__exit__()` method of the context-manager is executed and afterward the originial exception is re-raised.
+
+## `contextlib.contextmanager`
+
+The `contextlib` package is part of the Python standard library.  It provides utilities for common tasks involving the `with` statement.  Focusing on th `contextmanager` decorator, it is a docorator that can be used to create new context managers.  The concept behind `contextmanager` is simple.  Define a generator function - that is, a function which uses `yield` instead of `return` - and decorate it with the `contextmanager` decorator to create a context-manager factory.  This factory is a callable object which returns context-managers, making it suitable for use in a with-statement.
+
+Code example:
+```py
+@contextlib.contextmanager
+def my_context_manager():
+    # <ENTER>
+    try:
+        yield [value]
+        # <NORMAL EXIT>
+    except:
+        # <EXCEPTIONAL EXIT>
+        raise
+```
+Notice in the above, that the `contextmanager` decorator is applied to a generator called my_context_manager.  now use my_context_manager just like any other context-manager:
+
+```py
+with my_context_manager() as x:
+    # . . .
+```
+To describe the function: 
+First the genreator function is executed up to its yield statement.  Everything before the yield is equivalent to the `__enter__()` method on a normal contextmanger.  Next the yield statment supplies the value which will be bound to any name given in the as-clause of the with-statement.  In other words, the yield is like the return vlaue from `__enter__()` in a normal context-manager definition.
+
+Once `yield` is called, control leaves the context-manager function and goes to the with-block.  If the with-block terminates normally, then execution flow returns to the context-manager function immediiately after the `yield` statment.  In the above code, this is the secont marked `# <NORMAL EXIT>`.  If the with-block raises an exception, then that exception is re-raised from the `yield` statment in the context-manager.  In the above code block, this means that execution would go to the except block and into the section labeled `# <EXCEPTIONAL EXIT>`.
+
+In other words, the `contextmanger` decorator allows for the definition of context-managers control flow in a single generator function via the `yield` statement rather than breaking it up across two methods.  Since generators remember their state between calls to `yield`, there is no need to define a new class to create a stateful context-manager.
