@@ -79,3 +79,25 @@ First the genreator function is executed up to its yield statement.  Everything 
 Once `yield` is called, control leaves the context-manager function and goes to the with-block.  If the with-block terminates normally, then execution flow returns to the context-manager function immediiately after the `yield` statment.  In the above code, this is the secont marked `# <NORMAL EXIT>`.  If the with-block raises an exception, then that exception is re-raised from the `yield` statment in the context-manager.  In the above code block, this means that execution would go to the except block and into the section labeled `# <EXCEPTIONAL EXIT>`.
 
 In other words, the `contextmanger` decorator allows for the definition of context-managers control flow in a single generator function via the `yield` statement rather than breaking it up across two methods.  Since generators remember their state between calls to `yield`, there is no need to define a new class to create a stateful context-manager.
+
+## Multiple context-managers in a with-statement
+
+Use as many contexts-managers are needed in a single with-statement.  The syntax for this is like this:
+```py
+with cm1() as a, cm2() as b, . . .:
+  BODY
+```
+Each context-manager and optional variable binding is separated by a comma.  From an execution point of view, this is exactly equivalent to using nested with-statements, with earlier context-managers "enclosing" later ones.
+
+So this is multi-context-manager form:
+```py
+with cm1() as a, cm2() as b:
+  BODY
+```
+
+It is the same as this nested form:
+```py
+with cm1() as a:
+    with cm2() as b:
+        BODY
+```
