@@ -101,3 +101,7 @@ with cm1() as a:
     with cm2() as b:
         BODY
 ```
+
+## Do not pass a collection
+
+When using multiple context-managers with a single with-statment do not try to use a tuple or some other sequence of context-managers.
