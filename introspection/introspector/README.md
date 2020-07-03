@@ -101,4 +101,4 @@ def brief_doc(obj):
             return lines[0]
     return ''
 ```
-    Account for the fact that the docstring attribute may be set to `None`, in which case `splitlines()` cannot be called on it.  Likewise the docstring may be defined but empty, in which case `splitlines()` would return an empty list.  In either of these eventualities an empty string is returned.  This function follows a _Look Before You Leap_ style of programming, because the result was clearer than the alternative.
+Account for the fact that the docstring attribute may be set to `None`, in which case `splitlines()` cannot be called on it.  Likewise the docstring may be defined but empty, in which case `splitlines()` would return an empty list.  In either of these eventualities an empty string is returned.  This function follows a _Look Before You Leap_ style of programming, because the result was clearer than the alternative.
