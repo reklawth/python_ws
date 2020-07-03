@@ -71,3 +71,18 @@ method_names_and_doc = [(full_sig(method), brief_doc(method)) for method in meth
 Finally, print the table of methods using the yet-to-be implemented `print_table()` function:
 ```py
 print_table(method_names_and_doc, "Name", "Description")
+```
+
+## `full_sig()`
+
+The `dump()` function is complete, now implement `full_sig()` one of three functions on which `dump()` depends:
+```py
+# introspector.py
+# ...
+def full_sig(method):
+    try:
+        return method.__name__ + inspect.signature(method)
+    except ValueError:
+        return method.__name__ + '(...)'
+```
+In the above function, retrieve the name of the method via the special `__name__` attribute, and then try to get the argument signatures using `inspect.signature()`.  If that fails, fall back in the exception handler to return a string indicating that the signature could not be determined. This is an example of _Easier to Ask Forgiveness than Permission_ programming style.
