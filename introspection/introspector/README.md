@@ -86,3 +86,19 @@ def full_sig(method):
         return method.__name__ + '(...)'
 ```
 In the above function, retrieve the name of the method via the special `__name__` attribute, and then try to get the argument signatures using `inspect.signature()`.  If that fails, fall back in the exception handler to return a string indicating that the signature could not be determined. This is an example of _Easier to Ask Forgiveness than Permission_ programming style.
+
+## `brief_doc()`
+
+Now move onto implementing `brief_doc()`.  Documentation strings can be very lengthy, and in the table only a brief description is desired.  Fortunately, there is a widely followed convention tht the first line of a docstring contains exactly such a brief description.  This function attempt sto extract that line and return it:
+```py
+# introspector.py
+# ...
+def brief_doc(obj):
+    doc = obj.__doc__
+    if doc is not None:
+        lines = doc.splitlines()
+        if len(lines) > 0:
+            return lines[0]
+    return ''
+```
+    Account for the fact that the docstring attribute may be set to `None`, in which case `splitlines()` cannot be called on it.  Likewise the docstring may be defined but empty, in which case `splitlines()` would return an empty list.  In either of these eventualities an empty string is returned.  This function follows a _Look Before You Leap_ style of programming, because the result was clearer than the alternative.
