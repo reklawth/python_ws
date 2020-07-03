@@ -1,0 +1,73 @@
+# Object Introspection tool
+
+Create a function, which when passed a single object, prints out a nicely formatted dump of that objects attributes and methods, similar to `getmembers()` but with more finesse.
+
+Create a module `introspector.py` and define a `dump()` method that prints the outline of the object dump:
+```py
+# introspector.py
+
+def dump(obj):
+     print("Type")
+    print("====")
+    print(type(obj))
+    print()
+```
+Four section headings are printed and the only object detail printed is the type retrieved using the `type()` built-in function.
+
+## Introspecting documentation
+
+The easiest thing to do for the documentation section would be to simply print the `obj.__doc__` attribute, which would be a good start.  A better thing would be to use a function from the `inspect` module called `cleandoc()` which deals with tricky topics like uniformly removing leading whitespace from docstrings.  Even better, there is a function called `getdoc()` in the inspect module that will combine the operatons of retrieving and tidying up the docstring.  That will be used instead, providing very straightforward code in the documentation section:
+```py
+def dump(obj):
+# ...
+    print("Documentation")
+    print("=============")
+    print(inspect.getdoc(obj))
+    print()
+```
+
+## Attributes and methods
+
+There is now a need to product a list of attributes and their values.  The _right_ course of action is to use `inspect.getmembers()`, however this example will code up its own routine to apply other previously learned techniques.
+
+Getting a list of attributes can be done using the `dir(obj)`.  Put the attribute names into one of the SortedSet collections defined earlier:
+```py
+all_attr_names = SortedSet(dir(obj))
+```
+
+Now produce another `SortedSet` of all _method_ names by determining which of those attributes, when retrieved with `getattr()`, is _callable_.  Use `filter()` to select those attributes which are callable, and the predicate which acts on the attribute _name_ will be a lambda function:
+```py
+method_names = SortedSet(
+    filter(lambda attr_name: callable(getattr(obj, attr_name)),
+    all_attr_names))
+```
+
+The next part of the program will assume that `method_names` is a subset of `all_attr_names`, check that that is the case at this juncture by using an `assert` statement.  Recall that the relational operators on a `SortedSet` can be used to implement the subset test efficiently between two objects of the same type:
+```py
+assert method_names <= all_attr_names
+```
+Now use a set difference operation, called through the infix subtraction operator, to produce a `SortedSet` of all regular attributes - that is, those which are not callable - by subtracting the `method_names` from `all_attr_names`:
+```py
+attr_names = all_attr_names - method_names
+```
+Now print the attributes and their values.  Do this by building a list of name-value pairs using a list comprehension.  An attribute value could potentially have a huge text representation, which would spoil output without adding much value.  Use the Python Standard Library `reprlib` module to cut the values down to a reasonable size in an intelligent way:
+```py
+attr_names_and_values = [(name, reprlib.repr(getattr(obj, name))) for name in attr_names]
+```
+Then print a table of names and values, using a putative `print_table()` function to be implemented later:
+```py
+print_table(attr_names_and_values, "Name", "Value")
+```
+The function will need to accept a sequence of sequences representing rows of columns along with the requisite number of column headers as strings.
+
+With the regular attributes dealt with move onto methods. From the list of `method_names` generate a series of method objects, simply by retrieving each one with getattr():
+```py
+methods = (getattr(obj, method_name) for method_name in method_names)
+```
+The for each method object, build a full method signature and a brief documentation string, using functions to be defined later.  The signature and documentation will be assembled into a list of tuples using this list comprehension:
+```py
+method_names_and_doc = [(full_sig(method), brief_doc(method)) for method in methods]
+```
+Finally, print the table of methods using the yet-to-be implemented `print_table()` function:
+```py
+print_table(method_names_and_doc, "Name", "Description")
