@@ -102,3 +102,64 @@ def brief_doc(obj):
     return ''
 ```
 Account for the fact that the docstring attribute may be set to `None`, in which case `splitlines()` cannot be called on it.  Likewise the docstring may be defined but empty, in which case `splitlines()` would return an empty list.  In either of these eventualities an empty string is returned.  This function follows a _Look Before You Leap_ style of programming, because the result was clearer than the alternative.
+
+## `print_table()`
+
+Recall that the `print_table()` function accepts a sequence of sequence as its first argument, with the outer sequence representing rows of the table and the innner sequences representing the columns within those rows.  In addition the function accepts as many string arguments as are necessary to provide column headings. 
+
+Use extended argument syntax to accept any number of header arguments.  Next, perform some basic validation by ensuring that the number of header values supplied is compatible with the first row of the table.  Follow the lead of the built-in functions and raise a `TypeError` if too few arguments are provided:
+```py
+# introspector.py
+# . . .
+def print_table(rows_of_columns, *headers):
+
+    num_columns = len(rows_of_columns[0])
+    num_headers = len(headers)
+    if len(headers) != num_columns:
+        raise TypeError("Expected {} header arguments, got {}".format(num_columns, num_headers))
+```
+Note that the long `raise` statement can be split over several lines.  Now determine the width of each column in the table, taking into account the width of each item in the `rows_of_columns` data structure, but also the header widths.  To do this, lazily concatenate the header row and the data rows into a value `rows_of_columns_with_header` using `itertools.chain()`:
+```py
+rows_of_columns_with_header = itertools.chain([headers], rows_of_columns)
+```
+Notice how a list containing the single headers row is made for the first argument.  Next use the zip-star idiom to transpose the rows-of-columns into columns-of-rows.  Force evaluation of the otherwise lazy `zip()` by constructing a `list`, binding the result to the name `columns_of_rows`:
+```py
+columns_of_rows = list(zip(*rows_of_columns_with_header))
+```
+To find the maximum width of a column use this expression:
+```py
+max(map(len, column))
+```
+To break this down. pass the `len` function, without calling it, to `map()`, which applies `len()` to each item in the `column` sequence, in effect yielding a series of widths.  Then use `max()` to fid the maximum widto of the column.  Apply this approach to each column, so put this expression in a list comprehension which does exactly that:
+```py
+column_widths = [max(map(len, column)) for column in columns_of_rows]
+```
+Note that `map()` and list comprehensions are often considered to be alternatives.  In the above, both have been comboined because the result is more readable than using nested comprehensions or using two applications of `map()`.  The resulting `column_widths` object is a list containing one integer for each column.
+
+To print fixed width columns, do that with format specifiers and the format() string method.  However there is a variable number of columns so there is a need to build up the format string programmatically.  Each column will need to have a format specifier like this "{:13}" (for a column width of thirteen).
+
+To do this use the `format()` function to insert the width, but there is a need to escape the outer curly-braces so they carry through to the result;  this escaping is performed by doubling the curly brace character.  Applying this over all columns using a generator exprerssion produces:
+```py
+column_specs = ('{{:{w}}}'.format(w=width) for width in column_widths)
+```
+Concatenate all these column format specifications together using the `str.join()` method, inserting a space between each column:
+```py
+format_spec = ' '.join(column_specs)
+```
+Now to begin printing the table. First, use the `format_spec` to print the column headers, using extended argument unpacking to supply each header string as a separate argument to `format()`:
+```py
+print(format_spec.format(*headers))
+```
+Now print horizontal rules under the headers to separate them from the data below. Use string repetition with the multiply operator to create the individual rules by repeating hyphens, then generate a rule for each column using a generator expression:
+```py
+rules = (' ' * width for width in column_widths)
+```
+Then it is a simple matter to print the rules:
+```py
+print(format_spec.format(*rules))
+```
+Finally, print each row of data:
+```py
+for row in rows_of_columns:
+    print(format_spec.format(*row))
+```
