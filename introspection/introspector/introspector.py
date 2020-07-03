@@ -39,7 +39,7 @@ def dump(obj):
 
 def full_sig(method):
     try:
-        return method.__name__ + inspect.signature(method)
+        return method.__name__ + str(inspect.signature(method))
     except ValueError:
         return method.__name__ + '(...)'
 
