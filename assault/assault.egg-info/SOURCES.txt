@@ -1,0 +1,10 @@
+README.md
+setup.py
+assault/__init__.py
+assault/cli.py
+assault.egg-info/PKG-INFO
+assault.egg-info/SOURCES.txt
+assault.egg-info/dependency_links.txt
+assault.egg-info/entry_points.txt
+assault.egg-info/requires.txt
+assault.egg-info/top_level.txt
