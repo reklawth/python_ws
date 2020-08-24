@@ -65,6 +65,7 @@ $ pipenv shell
 [2] setup.py came from: https://raw.githubusercontent.com/navdeep-G/setup.py/master/setup.py
 [3] [argparse](https://docs.python.org/3/library/argparse.html) -- The `argparse` module makes it easy to write user-friendly command-line interfaces.  The program defines what arguments it requires, and `argparse` will figure out how to parse those out of `sys.argv`.  The `argparse` module also automatically generates help and usage messages and issues errors when users give the program invalid arguments.
 [4] [Click](https://click.palletsprojects.com/en/7.x/) is a Python package for creating beautiful command line interfaces in a composable way with as little code as necessary.
+[5] [asyncio](https://docs.python.org/3/library/asyncio.html) is a library to write concurrent code using the async/await syntax.
 
 ## For later
 * Entry points = entry_points={"console_scripts": ["assault=assault.cli:cli"],},
