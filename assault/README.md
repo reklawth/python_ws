@@ -70,3 +70,11 @@ $ pipenv shell
 ## For later
 * Entry points = entry_points={"console_scripts": ["assault=assault.cli:cli"],},
 * pip install -e .
+* Event loop
+* GIL - Global interpreter lock
+* requests package is not meant to work with asyncio, so it will need to be placed in its own function
+* `async` and `await` are used in tandem, to use await it must be in an `async` function
+* To run 20 workers making 1000 requests to google.com from CLI:
+  ```
+  DEBUG=true assault -r 100 -c 20 https://google.com
+  ```
