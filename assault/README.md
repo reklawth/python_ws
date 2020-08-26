@@ -65,16 +65,23 @@ $ pipenv shell
 [2] setup.py came from: https://raw.githubusercontent.com/navdeep-G/setup.py/master/setup.py
 [3] [argparse](https://docs.python.org/3/library/argparse.html) -- The `argparse` module makes it easy to write user-friendly command-line interfaces.  The program defines what arguments it requires, and `argparse` will figure out how to parse those out of `sys.argv`.  The `argparse` module also automatically generates help and usage messages and issues errors when users give the program invalid arguments.
 [4] [Click](https://click.palletsprojects.com/en/7.x/) is a Python package for creating beautiful command line interfaces in a composable way with as little code as necessary.
-[5] [asyncio](https://docs.python.org/3/library/asyncio.html) is a library to write concurrent code using the async/await syntax.
+[5] [asyncio](https://docs.python.org/3/library/asyncio.html) is a library to write [asynchronous](https://realpython.com/async-io-python/) or concurrent code using the `async` and `await` syntax.
+[6] The [doctest](https://docs.python.org/3/library/doctest.html) module searches for pieces of text that look like interactive Python sessions, and then executes those sessions to verify that they work exactly as shown. 
+[7] The [typing](https://docs.python.org/3/library/typing.html) module provides runtime support for [type hints](https://realpython.com/python-type-checking/) as specified by PEP 484, PEP 526, PEP 544, PEP 586, PEP 589, and PEP 591.  
 
 ## For later
 * Entry points = entry_points={"console_scripts": ["assault=assault.cli:cli"],},
 * pip install -e .
 * Event loop
-* GIL - Global interpreter lock
+* [GIL](https://realpython.com/python-gil/) - Global interpreter lock
 * requests package is not meant to work with asyncio, so it will need to be placed in its own function
 * `async` and `await` are used in tandem, to use await it must be in an `async` function
 * To run 20 workers making 1000 requests to google.com from CLI:
   ```
   DEBUG=true assault -r 100 -c 20 https://google.com
+  ```
+* Research Test-Driven Development
+* To run doctests on the stats module:
+  ```
+  python -m doctest assault/stats.py 
   ```
