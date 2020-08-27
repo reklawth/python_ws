@@ -67,7 +67,8 @@ $ pipenv shell
 [4] [Click](https://click.palletsprojects.com/en/7.x/) is a Python package for creating beautiful command line interfaces in a composable way with as little code as necessary.
 [5] [asyncio](https://docs.python.org/3/library/asyncio.html) is a library to write [asynchronous](https://realpython.com/async-io-python/) or concurrent code using the `async` and `await` syntax.
 [6] The [doctest](https://docs.python.org/3/library/doctest.html) module searches for pieces of text that look like interactive Python sessions, and then executes those sessions to verify that they work exactly as shown. 
-[7] The [typing](https://docs.python.org/3/library/typing.html) module provides runtime support for [type hints](https://realpython.com/python-type-checking/) as specified by PEP 484, PEP 526, PEP 544, PEP 586, PEP 589, and PEP 591.  
+[7] The [typing](https://docs.python.org/3/library/typing.html) module provides runtime support for [type hints](https://realpython.com/python-type-checking/) as specified by PEP 484, PEP 526, PEP 544, PEP 586, PEP 589, and PEP 591. 
+[8] A lambda is an anonymous function that has an implicit return 
 
 ## For later
 * Entry points = entry_points={"console_scripts": ["assault=assault.cli:cli"],},
