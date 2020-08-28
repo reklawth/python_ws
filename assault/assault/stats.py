@@ -99,4 +99,44 @@ class Results:
         2
         """
         return len([r for r in self.requests if r["status_code"] in range(200, 299)])
-        pass
+
+    def requests_per_minute(self) -> int:
+        """ 
+        Returns the number of requests that could be made in a minute
+
+        >>> results = Results(10.6, [{
+        ...     'request_time': 3.4,
+        ...     'status_code': 200,
+        ... }, {
+        ...     'status_code': 500,
+        ...     'request_time': 6.1,
+        ... }, {
+        ...     'status_code': 200,
+        ...     'request_time': 1.04,
+        ... }])
+        >>> results.requests_per_minute()
+        17
+        """
+        return round(60 * len(self.requests) / self.total_time)
+
+    def requests_per_second(self) -> int:
+        """ 
+        Returns the number of requests made per second
+
+        >>> results = Results(3.5, [{
+        ...     'request_time': 3.4,
+        ...     'status_code': 200,
+        ... }, {
+        ...     'status_code': 500,
+        ...     'request_time': 2.9,
+        ... }, {
+        ...     'status_code': 200,
+        ...     'request_time': 1.04,
+        ... }, {
+        ...     'status_code': 200,
+        ...     'request_time': 0.4    
+        ... }])
+        >>> results.requests_per_second()
+        1
+        """
+        return round(len(self.requests) / self.total_time)

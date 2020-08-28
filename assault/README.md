@@ -86,3 +86,4 @@ $ pipenv shell
   ```
   python -m doctest assault/stats.py 
   ```
+* We `import sys` in the `cli.py` so that if someone passes us a file that we can never open we can cancel.
