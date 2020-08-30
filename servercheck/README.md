@@ -27,4 +27,4 @@ servercheck -s "SERVER:1000:" -s "SERVER2:2000" -f example.json
 
 ## Notes
 
-* A `set` is a sequence type where you cannot add a duplicate, if one is found it will be ignorted
+* A `set` is a sequence type where you cannot add a duplicate, if one is found it will be ignored
