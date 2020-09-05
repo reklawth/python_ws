@@ -108,3 +108,6 @@ python product_csv.py
 - You will also need to create a [Session Class](https://docs.sqlalchemy.org/en/13/orm/session.html) to be use to start working with the models
 - `@lru_cache` decorator from `functools`
 - Declaring a [Mapping](https://docs.sqlalchemy.org/en/13/orm/tutorial.html?highlight=declare%20mapping#declare-a-mapping) map from a class to a table using the `declarative_base()` option inside of SQLAlchemy to create a base class and our models will be based off of that.
+- ```
+  cp product_{csv,json}.py
+  ```
