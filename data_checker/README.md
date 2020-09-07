@@ -38,3 +38,7 @@
 >>> dataset.css(".dataset-organization::text").get()
 'National Oceanic and Atmospheric Administration, Department of Commerce —'
   ```
+
+- ```
+  scrapy crawl dataset
+  ```
