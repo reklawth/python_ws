@@ -1,6 +1,8 @@
 # Web Scraper
 
 ## Notes:
+- https://docs.scrapy.org/en/latest/index.html
+
 - ```
   pipenv install --python python3.8 scrapy
   ```
