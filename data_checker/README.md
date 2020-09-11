@@ -44,3 +44,10 @@
 - ```
   scrapy crawl dataset
   ```
+
+- Asynchronous SMTP server in DEBUG mode:
+  ```
+  pipenv shell
+  pipenv install aiosmtpd --dev
+  python -m aiosmtpd -n -l localhost:8025
+  ```

@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "0248cce57c7a462bbed0c9ce5d4a84b92d0e146d394de44d71af073668ad2c1d"
+            "sha256": "0dc5b86391729a01ce7b67d4adc434be6da9d5db892b342c14e0edff83eafe1e"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -134,10 +134,10 @@
         },
         "itemloaders": {
             "hashes": [
-                "sha256:7adf0f4b668c784e8a7d872c7650f238a37ee578ba16e05dde2a03b5a2c4cd5a",
-                "sha256:f5b315d24322b6a0d9150c4d74f92f93b1bd5247bc0ce64c2b46de30710df211"
+                "sha256:a7803a1c27177d73329a0cc83a9c10de50fa4d4f37970e0194e8ae24b1fb7066",
+                "sha256:d8f92a93d0cc9f5a7f72f01562539cb7030f7741758e764a0a8716f9b0210f7a"
             ],
-            "version": "==1.0.2"
+            "version": "==1.0.3"
         },
         "jmespath": {
             "hashes": [
@@ -347,5 +347,19 @@
             "version": "==5.1.0"
         }
     },
-    "develop": {}
+    "develop": {
+        "aiosmtpd": {
+            "hashes": [
+                "sha256:b7ea7ee663f3b8514d3224d55c4e8827148277b124ea862a0bbfca1bc899aef5"
+            ],
+            "index": "pypi",
+            "version": "==1.2"
+        },
+        "atpublic": {
+            "hashes": [
+                "sha256:ebeb62b71a5c683a84c1b16bbf415708af5a46841b142b85ac3a22ec2d7613b0"
+            ],
+            "version": "==2.0"
+        }
+    }
 }
