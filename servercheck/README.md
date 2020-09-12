@@ -184,3 +184,32 @@ Failed Connections
 web-node1:3000
 web-node1:9000
 ```
+
+You can also test using the DEBUG flag:
+
+```
+(servercheck) $ DEBUG=true servercheck -f example.json -s '52.3.232.163:80' -s '52.3.232.163:9000'
+Making request to 3.235.44.220:3000
+Making request to 3.235.44.220:80
+Making request to 52.3.232.163:80
+Making request to 52.3.232.163:3000
+Making request to 52.3.232.163:9000
+Making request to 52.3.232.163:8000
+Failed to connect to 52.3.232.163:3000
+Failed to connect to 52.3.232.163:9000
+Received response from 3.235.44.220:3000
+Received response from 3.235.44.220:80
+Received response from 52.3.232.163:8000
+Received response from 52.3.232.163:80
+Successful Connections
+---------------------
+3.235.44.220:3000
+3.235.44.220:80
+52.3.232.163:8000
+52.3.232.163:80
+
+ Failed Connections
+------------------
+52.3.232.163:3000
+52.3.232.163:9000
+```

@@ -18,7 +18,7 @@ def get(server):
     
 
 async def ping(server, results):
-    loop = asyncio.get_event_loop
+    loop = asyncio.get_event_loop()
     future_result = loop.run_in_executor(None, get, server)
     result = await future_result
     if result["status_code"] in range(200, 299):
