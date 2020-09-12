@@ -32,6 +32,17 @@ servercheck -s "SERVER:1000:" -s "SERVER2:2000" -f example.json
 
 * A `set` is a sequence type where you cannot add a duplicate, if one is found it will be ignored
 
+
+## Making Async HTTP Requests
+
+__Objectives:__
+* Create the http Module within the servercheck Package and Install requests
+* Make Concurrent Requests and Return the Results
+* Test Against Additional Servers Using REPL
+* Utilize servercheck.http.ping_servers in the CLI Function
+
+![Screenshot](img/img02.png "Async Objectives")
+
 ## Test Against Additional Servers Using REPL
 
 ```
