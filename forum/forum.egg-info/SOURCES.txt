@@ -1,0 +1,8 @@
+setup.py
+forum/__init__.py
+forum/models.py
+forum.egg-info/PKG-INFO
+forum.egg-info/SOURCES.txt
+forum.egg-info/dependency_links.txt
+forum.egg-info/requires.txt
+forum.egg-info/top_level.txt
