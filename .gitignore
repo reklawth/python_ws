@@ -5,3 +5,4 @@ __pycache__/
 local_functions/.vscode/settings.json
 dbexport/container.md
 py_automation/exercise_files/OrganizeMe/
+py_automation/exercise_files/my_code/geckodriver.log
