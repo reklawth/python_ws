@@ -34,3 +34,6 @@ The `.split` [method](https://www.w3schools.com/python/ref_string_split.asp) spl
 * https://docs.python.org/3.8/library/stdtypes.html
 * https://realpython.com/python-pathlib/
 * https://pathlib.readthedocs.io/en/0.5/
+
+## Automating with APIs:
+* https://rapidapi.com
