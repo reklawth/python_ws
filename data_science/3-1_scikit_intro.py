@@ -65,7 +65,7 @@ X_r
 import matplotlib.pyplot as plt
 
 # %%
-# Percentage of variance explained for each components
+# Percentage of variance explained for each components, this takes a while to render
 print('explained variance ration (first two components): %s'
     % str(pca.explained_variance_ratio_))
 
@@ -77,6 +77,6 @@ plt.title('PCA of flights dataset')
 
 # %%
 # Additional show commands
-plt.plot
-plt.show
+# plt.plot
+# plt.show
 print('finished')
